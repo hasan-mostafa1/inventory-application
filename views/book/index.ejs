@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Books</h1>
+        <a href="/books/create">Add new book</a>
+        <div class="content">
+            <% locals.books.forEach((book)=>{ %>
+                <div class="book">
+                    <h2><%= book.title %></h2>
+                    <ul class="book-details">
+                        <li><%= book.short_description%></li>
+                        <li><%= book.long_description%></li>
+                        <li><%= book.publication_date.toISOString().split('T')[0] %></li>
+                    </ul>
+                    <a href="/books/<%=book.id%>/show">Show book</a>
+                </div>
+            <%})%>
+        </div>
+    </div>
+</body>
+</html>

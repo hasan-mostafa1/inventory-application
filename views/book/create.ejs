@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add book</title>
+</head>
+<body>
+    <h1>Add new book</h1>
+    <% if(locals.errors) {%> 
+        <ul>
+            <% locals.errors.forEach((error)=>{%>
+                <li><%=error.msg%></li>
+            <%});%>
+        </ul>
+    <%}%>
+    <form action="/books/create" method="post">
+        <label for="title">Title:</label>
+        <input type="text" name="title" id="title">
+        <label for="shortDescription">Short Description:</label>
+        <input type="text" name="shortDescription" id="shortDescription">
+        <label for="longDescription">Long Description:</label>
+        <textarea name="longDescription" id="longDescription"></textarea>
+        <label for="date">Publication Date:</label>
+        <input type="date" name="publicationDate" id="date">
+        <button type="submit">Add</button>
+    </form>
+</body>
+</html>

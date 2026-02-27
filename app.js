@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("node:path");
 const authorRouter = require("./routes/authorRouter");
+const bookRouter = require("./routes/bookRouter");
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 app.use("/authors", authorRouter);
+app.use("/books", bookRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, (error) => {
