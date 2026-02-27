@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS books (
 async function main() {
   console.log("Running books migration...");
   const client = new Client({
-    connectionString: `postgresql://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}/${process.env.DATABASE_NAME}`,
+    connectionString: `postgresql://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}:${process.env.DATABASE_PORT}/${process.env.DATABASE_NAME}?sslmode=require&channel_binding=require`,
   });
   await client.connect();
   await client.query(SQL);
