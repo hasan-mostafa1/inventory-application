@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authors</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Authors</h1>
+        <a href="/authors/create">Add new author</a>
+        <div class="content">
+            <% locals.authors.forEach((author)=>{ %>
+                <div class="author">
+                    <h2><%= author.full_name %></h2>
+                    <ul class="author-details">
+                        <li><%= author.gender %></li>
+                        <li><%= author.bio %></li>
+                        <li><%= author.nationality %></li>
+                        <li><%= author.birth_date.toISOString().split('T')[0] %></li>
+                    </ul>
+                    <a href="/authors/<%=author.id%>/show">Show author</a>
+                </div>
+            <%})%>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=author.full_name%></title>
+</head>
+<body>
+    <h1><%= author.full_name %></h1>
+    <ul class="author-details">
+        <li><%= author.gender %></li>
+        <li><%= author.bio %></li>
+        <li><%= author.nationality %></li>
+        <li><%= author.birth_date.toISOString().split('T')[0] %></li>
+    </ul>
+    <a href="/authors/<%=author.id%>/edit">Update author</a>
+    <form action="/authors/<%=author.id%>/delete" method="post">
+        <button type="submit">Delete</button>
+    </form>
+</body>
+</html>

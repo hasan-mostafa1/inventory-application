@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit author</title>
+</head>
+<body>
+    <h1>Edit author</h1>
+    <% if(locals.errors) {%> 
+        <ul>
+            <% locals.errors.forEach((error)=>{%>
+                <li><%=error.msg%></li>
+            <%});%>
+        </ul>
+    <%}%>
+    <form action="/authors/<%=author.id%>/edit" method="post">
+        <label for="fullName">Full Name:</label>
+        <input type="text" name="fullName" id="fullName" value="<%=author.full_name%>">
+    <fieldset>
+    <legend>Gender:</legend>
+    <input type="radio" id="male" name="gender" value="male" <%= author.gender === 'male'? 'checked' : '' %> >
+    <label for="male">Male</label><br>
+    <input type="radio" id="female" name="gender" value="female" <%= author.gender === 'female'? 'checked' : '' %> >
+    <label for="female">Female</label><br>
+    <input type="radio" id="other" name="gender" value="other" <%= author.gender === 'other'? 'checked' : '' %> >
+    <label for="other">Other</label>
+    </fieldset>
+    <label for="bio">Bio:</label>
+    <textarea name="bio" id="bio"><%=author.bio%></textarea>
+    <label for="nationality">Nationality:</label>
+    <input type="text" name="nationality" id="nationality" value="<%=author.nationality%>">
+    <label for="date">Date:</label>
+    <input type="date" name="birthDate" id="date" value="<%=author.birth_date.toISOString().split('T')[0]%>">
+    <button type="submit">Update</button>
+    </form>
+</body>
+</html>

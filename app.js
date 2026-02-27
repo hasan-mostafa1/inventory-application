@@ -1,5 +1,6 @@
 const express = require("express");
 const path = require("node:path");
+const authorRouter = require("./routes/authorRouter");
 
 const app = express();
 
@@ -10,6 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+app.use("/authors", authorRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, (error) => {
