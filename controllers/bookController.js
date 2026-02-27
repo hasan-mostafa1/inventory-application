@@ -1,4 +1,5 @@
 const book = require("../db/queries/book");
+const author = require("../db/queries/author");
 const { body, validationResult, matchedData } = require("express-validator");
 
 const validateBook = [
@@ -34,6 +35,14 @@ const validateBook = [
     .withMessage("publicationDate can't be empty!")
     .isDate()
     .withMessage("Invalid publicationDate"),
+  body("authorIds")
+    .exists()
+    .withMessage("author is required!")
+    .trim()
+    .notEmpty()
+    .withMessage("author can't be empty!")
+    .isArray()
+    .withMessage("authorIds must be an array!"),
 ];
 
 exports.index = async (req, res) => {
@@ -41,8 +50,9 @@ exports.index = async (req, res) => {
   res.render("book/index", { books: books });
 };
 
-exports.create = (req, res) => {
-  res.render("book/create");
+exports.create = async (req, res) => {
+  const authors = await author.all();
+  res.render("book/create", { authors: authors });
 };
 
 exports.store = [
@@ -52,27 +62,34 @@ exports.store = [
     if (!errors.isEmpty()) {
       return res.status(400).render("book/create", { errors: errors.array() });
     }
-    const { title, shortDescription, longDescription, publicationDate } =
-      matchedData(req);
-    await book.create(
+    const {
+      title,
+      shortDescription,
+      longDescription,
+      publicationDate,
+      authorIds,
+    } = matchedData(req);
+
+    const newBook = await book.create(
       title,
       shortDescription,
       longDescription,
       publicationDate,
     );
-
+    book.attach(newBook.id, authorIds);
     res.redirect("/books");
   },
 ];
 
 exports.show = async (req, res) => {
-  const rows = await book.find(req.params.id);
+  const rows = await book.findWithAuthors(req.params.id);
   res.render("book/show", { book: rows[0] });
 };
 
 exports.edit = async (req, res) => {
-  const rows = await book.find(req.params.id);
-  res.render("book/edit", { book: rows[0] });
+  const rows = await book.findWithAuthors(req.params.id);
+  const authors = await author.all();
+  res.render("book/edit", { book: rows[0], authors: authors });
 };
 
 exports.update = [
@@ -85,8 +102,13 @@ exports.update = [
         .status(400)
         .render("book/edit", { book: rows[0], errors: errors.array() });
     }
-    const { title, shortDescription, longDescription, publicationDate } =
-      matchedData(req);
+    const {
+      title,
+      shortDescription,
+      longDescription,
+      publicationDate,
+      authorIds,
+    } = matchedData(req);
     await book.update(
       req.params.id,
       title,
@@ -94,7 +116,7 @@ exports.update = [
       longDescription,
       publicationDate,
     );
-
+    book.sync(req.params.id, authorIds);
     res.redirect("/books");
   },
 ];

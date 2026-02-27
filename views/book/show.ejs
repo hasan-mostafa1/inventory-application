@@ -12,6 +12,14 @@
         <li><%= book.long_description%></li>
         <li><%= book.publication_date.toISOString().split('T')[0] %></li>
     </ul>
+    <h2>Authors:</h2>
+    <ul>
+        <% book.authors.forEach((author)=>{%>
+            <%if(author.author_name) {%>
+                <li><%=author.author_name%></li>
+            <%}%>
+        <%})%>
+    </ul>
     <a href="/books/<%=book.id%>/edit">Update book</a>
     <form action="/books/<%=book.id%>/delete" method="post">
         <button type="submit">Delete</button>

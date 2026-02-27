@@ -23,6 +23,13 @@
         <textarea name="longDescription" id="longDescription"><%=book.long_description%></textarea>
         <label for="date">Publication Date:</label>
         <input type="date" name="publicationDate" id="date" value="<%=book.publication_date.toISOString().split('T')[0]%>">
+        <label for="authors">Select Authors:</label>
+            <select id="authors" name="authorIds[]" multiple>
+                <% const ids = book.authors.map((author)=>author.author_id) %>
+                <% authors.forEach(author => { %>
+                    <option value="<%= author.id %>" <%= ids.includes(author.id) ? 'selected' : '' %>><%= author.full_name %></option>
+                <% }); %>
+            </select>
         <button type="submit">Update</button>
     </form>
 </body>

@@ -23,6 +23,12 @@
         <textarea name="longDescription" id="longDescription"></textarea>
         <label for="date">Publication Date:</label>
         <input type="date" name="publicationDate" id="date">
+        <label for="authors">Select Authors:</label>
+        <select id="authors" name="authorIds[]" multiple>
+            <% authors.forEach(author => { %>
+                <option value="<%= author.id %>"><%= author.full_name %></option>
+            <% }); %>
+        </select>
         <button type="submit">Add</button>
     </form>
 </body>
